@@ -8,7 +8,7 @@ public class Movement : MonoBehaviour
     public int balloonIndex = 0;
 
     AudioSource audioSource;
-    bool isClicked = false;             // Prevents respawn before sound finishes
+    bool isClicked = false;
 
     void Start()
     {
@@ -17,7 +17,6 @@ public class Movement : MonoBehaviour
 
     void Update()
     {
-        // Balloon escaped to TOP → lose health + respawn
         if (transform.position.y > 6f)
         {
             GameManager.Instance.LoseHealth();
@@ -27,26 +26,34 @@ public class Movement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!isClicked)                 // Stop moving after click so it doesn't escape while sound plays
+        if (!isClicked)
             transform.Translate(0, upSpeed * Time.deltaTime, 0);
     }
 
     private void OnMouseDown()
     {
-        if (isClicked) return;          // Ignore double clicks
+        if (isClicked) return;
         isClicked = true;
 
         GameManager.Instance.AddScore();
-        audioSource.Play();             // ✅ Play sound FIRST
 
-        StartCoroutine(WaitThenRespawn()); // ✅ Respawn AFTER sound finishes
+        // ✅ Get a random sound from GameManager and play it
+        AudioClip randomClip = GameManager.Instance.GetRandomPopSound();
+        if (randomClip != null)
+        {
+            audioSource.clip = randomClip;
+            audioSource.Play();
+        }
+
+        StartCoroutine(WaitThenRespawn());
     }
 
     IEnumerator WaitThenRespawn()
     {
+        // ✅ Wait for the random clip length before respawning
         float clipLength = audioSource.clip != null ? audioSource.clip.length : 0.3f;
-        yield return new WaitForSeconds(clipLength); // Wait for full sound to play
+        yield return new WaitForSeconds(clipLength);
 
-        GameManager.Instance.spawner.RespawnBalloon(balloonIndex); // Then respawn
+        GameManager.Instance.spawner.RespawnBalloon(balloonIndex);
     }
 }

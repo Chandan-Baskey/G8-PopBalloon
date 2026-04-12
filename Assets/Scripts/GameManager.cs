@@ -7,25 +7,24 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     [Header("Balloon Prefabs")]
-    public GameObject[] balloonPrefabs;         // Index 0 = balloon 0, Index 1 = balloon 1 ...
+    public GameObject[] balloonPrefabs;
+
+    [Header("Sound Effects")]
+    public AudioClip[] popSounds;           // ✅ Drag all 4-8 sound effects here
+
     [Header("UI")]
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI healthText;
 
     [Header("Panels")]
     public GameObject gameOverPanel;
-    public GameObject winPanel;                 // Assign Win Panel in Inspector
 
     [Header("Health Settings")]
     public int maxHealth = 3;
 
-    [Header("Win Settings")]
-    public int winScore = 10;                   // Player wins when score reaches this
-
     private int score = 0;
     private int currentHealth;
     private bool isGameOver = false;
-    private bool isWin = false;
 
     [HideInInspector] public Spawner spawner;
 
@@ -42,8 +41,8 @@ public class GameManager : MonoBehaviour
         currentHealth = maxHealth;
         UpdateUI();
 
-        if (gameOverPanel != null) gameOverPanel.SetActive(false);
-        if (winPanel != null) winPanel.SetActive(false);   
+        if (gameOverPanel != null)
+            gameOverPanel.SetActive(false);
     }
 
     // Called by Spawner to get the correct prefab by index
@@ -56,20 +55,32 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
+    // ✅ Returns a random pop sound from the array
+    public AudioClip GetRandomPopSound()
+    {
+        if (popSounds == null || popSounds.Length == 0)
+        {
+            Debug.LogWarning("No pop sounds assigned in GameManager!");
+            return null;
+        }
+
+        int randomIndex = Random.Range(0, popSounds.Length);
+        return popSounds[randomIndex];
+    }
+
     // Called by balloon when CLICKED → +1 Score
     public void AddScore()
     {
-        if (isGameOver || isWin) return;
+        if (isGameOver) return;
 
         score++;
         UpdateUI();
-        if (score >= winScore)
-            WinGame();
     }
 
+    // Called by balloon when it ESCAPES TOP → -1 Health
     public void LoseHealth()
     {
-        if (isGameOver || isWin) return;
+        if (isGameOver) return;
 
         currentHealth--;
         UpdateUI();
@@ -81,7 +92,7 @@ public class GameManager : MonoBehaviour
     void UpdateUI()
     {
         if (scoreText != null)
-            scoreText.text = "Score: " + score + " / " + winScore;
+            scoreText.text = "" + score;
 
         if (healthText != null)
         {
@@ -92,26 +103,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void WinGame()
-    {
-        isWin = true;
-
-        
-        if (spawner != null)
-            spawner.DisableAllBalloons();         
-
-        if (winPanel != null)
-            winPanel.SetActive(true);
-
-        Debug.Log("You Win!");
-    }
-
     void GameOver()
     {
         isGameOver = true;
 
         if (spawner != null)
-            spawner.DisableAllBalloons(); 
+            spawner.DisableAllBalloons();
+
 
         if (gameOverPanel != null)
             gameOverPanel.SetActive(true);
@@ -119,17 +117,9 @@ public class GameManager : MonoBehaviour
         Debug.Log("Game Over!");
     }
 
+    // Hook to Restart Button
     public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-    public void NextLevel()
-    {
-        int nextScene = SceneManager.GetActiveScene().buildIndex + 1;
-
-        if (nextScene < SceneManager.sceneCountInBuildSettings)
-            SceneManager.LoadScene(nextScene);
-        else
-            SceneManager.LoadScene(0);             
     }
 }

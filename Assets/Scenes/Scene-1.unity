@@ -516,7 +516,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 39, y: 2}
+  m_AnchoredPosition: {x: 39, y: -204}
   m_SizeDelta: {x: 294.418, y: 192.7251}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &697084915
@@ -566,14 +566,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 80
-  m_fontSizeBase: 80
+  m_fontSize: 200
+  m_fontSizeBase: 200
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 4
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -782,12 +782,17 @@ MonoBehaviour:
   balloonPrefabs:
   - {fileID: 5832928509286364284, guid: 6a728730db3ccc44297be701e46d994b, type: 3}
   - {fileID: 7079528687634088039, guid: ff481a52728c4f74ab28cd5b8bb1de02, type: 3}
+  popSounds:
+  - {fileID: 8300000, guid: 64d3b4955cfd02642a6c70b46380570b, type: 3}
+  - {fileID: 8300000, guid: c803074776816bc45b3e693ae8ae95ac, type: 3}
+  - {fileID: 8300000, guid: c353464741b835f4fab0b815484f5885, type: 3}
+  - {fileID: 8300000, guid: 682b7e361efc2034c9211307a449bb07, type: 3}
+  - {fileID: 8300000, guid: e37cc4816fe2fb245b8d257f0e22306b, type: 3}
+  - {fileID: 8300000, guid: 00079c51869451743a4c214522708d8b, type: 3}
   scoreText: {fileID: 697084915}
   healthText: {fileID: 922998230}
   gameOverPanel: {fileID: 2007480899}
-  winPanel: {fileID: 575149619}
   maxHealth: 3
-  winScore: 10
   spawner: {fileID: 0}
 --- !u!4 &931094199
 Transform:

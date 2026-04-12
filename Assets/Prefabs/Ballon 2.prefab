@@ -258,5 +258,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 945ca0c17c87680488dc891f2555f272, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upSpeed: 3
+  upSpeed: 4
   balloonIndex: 1
