@@ -260,3 +260,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upSpeed: 4
   balloonIndex: 1
+  speed: 1.4
