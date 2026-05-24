@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
-    // ✅ Returns a random pop sound from the array
+     
     public AudioClip GetRandomPopSound()
     {
         if (popSounds == null || popSounds.Length == 0)
@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
         return popSounds[randomIndex];
     }
 
-    // Called by balloon when CLICKED → +1 Score
+
     public void AddScore()
     {
         if (isGameOver) return;
@@ -121,5 +121,9 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    public void startGame()
+    {
+        SceneManager.LoadScene(1);
     }
 }
