@@ -6,6 +6,7 @@ public class Movement : MonoBehaviour
     [Header("Settings")]
     public float upSpeed = 2f;
     public int balloonIndex = 0;
+    public float speed;
 
     AudioSource audioSource;
     bool isClicked = false;
@@ -27,7 +28,7 @@ public class Movement : MonoBehaviour
     private void FixedUpdate()
     {
         if (!isClicked)
-            transform.Translate(0, upSpeed * Time.deltaTime, 0);
+            transform.Translate(0, upSpeed* speed * Time.deltaTime, 0);
     }
 
     private void OnMouseDown()
@@ -41,19 +42,8 @@ public class Movement : MonoBehaviour
         AudioClip randomClip = GameManager.Instance.GetRandomPopSound();
         if (randomClip != null)
         {
-            audioSource.clip = randomClip;
-            audioSource.Play();
+            AudioSource.PlayClipAtPoint(randomClip, transform.position);
         }
-
-        StartCoroutine(WaitThenRespawn());
-    }
-
-    IEnumerator WaitThenRespawn()
-    {
-        // ✅ Wait for the random clip length before respawning
-        float clipLength = audioSource.clip != null ? audioSource.clip.length : 0.3f;
-        yield return new WaitForSeconds(clipLength);
-
-        GameManager.Instance.spawner.RespawnBalloon(balloonIndex);
-    }
+        GameManager.Instance.spawner.RespawnBalloon(balloonIndex);  
+    } 
 }
