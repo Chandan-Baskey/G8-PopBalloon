@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class GameManager : MonoBehaviour
     public AudioClip[] popSounds;           // ✅ Drag all 4-8 sound effects here
 
     [Header("UI")]
-    public TextMeshProUGUI scoreText;
+    public Text scoreText;
     public TextMeshProUGUI healthText;
 
     [Header("Panels")]
